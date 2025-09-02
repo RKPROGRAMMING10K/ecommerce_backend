@@ -24,6 +24,9 @@ const corsOptions = {
       "http://127.0.0.1:3000",
       process.env.FRONTEND_URL,
       // Add your Render frontend URL here when you get it
+      origin: 'https://ecommerce-frontend-gajz.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
     ].filter(Boolean); // Remove any undefined values
 
     // Check if origin is allowed
