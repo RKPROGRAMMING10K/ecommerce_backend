@@ -22,8 +22,24 @@ router.get("/", async (req, res) => {
       ];
     }
 
-    const products = await Product.find(query).sort({ createdAt: -1 });
-    res.json(products);
+    // Pagination
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 12;
+    if (limit > 100) limit = 100;
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      Product.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Product.countDocuments(query),
+    ]);
+
+    res.json({
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      limit,
+    });
   } catch (error) {
     console.error("Get products error:", error);
     res.status(500).json({ message: "Server error", error: error.message });

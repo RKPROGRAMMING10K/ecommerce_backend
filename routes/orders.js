@@ -40,6 +40,9 @@ router.post("/", auth, async (req, res) => {
       };
     });
 
+    // Get address and paymentMethod from request body
+    const { address, paymentMethod } = req.body;
+
     // Create order
     const order = new Order({
       orderId: generateOrderId(),
@@ -47,6 +50,8 @@ router.post("/", auth, async (req, res) => {
       userName: req.user.name,
       items: orderItems,
       totalAmount,
+      address: address || "",
+      paymentMethod: paymentMethod || "COD",
     });
 
     await order.save();

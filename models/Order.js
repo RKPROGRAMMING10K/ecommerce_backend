@@ -42,6 +42,15 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    address: {
+      type: String,
+      required: false,
+    },
+    paymentMethod: {
+      type: String,
+      required: false,
+      default: "COD",
+    },
   },
   {
     timestamps: true,
